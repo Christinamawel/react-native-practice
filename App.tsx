@@ -1,29 +1,38 @@
 import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { TextInput, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, FlatList } from 'react-native';
 
 export default function App() {
-  const [name, setName] = useState('Christy');
-  const [age, setAge] = useState('31');
-
-
+  const [people, setPeople] = useState([
+    { name: 'Christy', id: '1'},
+    { name: 'Yoshi', id: '2'},
+    { name: 'Mario', id: '3'},
+    { name: 'Luigi', id: '4'},
+    { name: 'Peach', id: '5'},
+    { name: 'Toad', id: '6'},
+    { name: 'Bowser', id: '7'},
+  ]);
 
   return (
     <View style={styles.container}>
-      <Text>Enter Name</Text>
-      <TextInput
-        multiline
-        style={styles.input} 
-        placeholder='e.g. John Doe'
-        onChangeText={(val) => setName(val)}/>
-      <Text>Enter Age</Text>
-      <TextInput
-        keyboardType='numeric'
-        style={styles.input} 
-        placeholder='e.g. 30'
-        onChangeText={(val) => setAge(val)}/>
-      <Text>My name is {name}</Text>
-      <Text>I am {age} years old</Text>
+
+    <FlatList
+      numColumns={2}
+      keyExtractor={(item) => item.id}
+      data={people}
+      renderItem={({ item })=> (
+        <Text style={styles.item}>{item.name}</Text>
+      )}
+    />
+
+    {/* <ScrollView>
+      {people.map(item => (
+          <View key={item.key}>
+            <Text style={styles.item}>{item.name}</Text>
+          </View>
+      ))}
+    </ScrollView> */}
+
       <StatusBar style="auto" />
     </View>
   );
@@ -33,14 +42,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingTop: 40,
+    paddingHorizontal: 20
   },
-  input: {
-    borderWidth: 1,
-    borderColor: 'black',
-    padding: 8,
-    margin: 10,
-    width: 200
+  item: {
+    marginTop: 24,
+    padding: 30,
+    backgroundColor: 'pink',
+    fontSize: 24,
+    marginHorizontal: 5,
+    width: 155
   }
 });
